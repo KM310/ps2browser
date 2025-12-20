@@ -10,16 +10,18 @@ typedef enum {
 
 typedef struct HtmlNode {
     NodeType type;
-    char *tag_name;       // NULL bei Text
-    char *text;           // Nur bei TEXT-Knoten
+    char *tag_name;
+    char *text;
+
+    // NEW: simple attribute support
+    char *attr_src;
+
     struct HtmlNode **children;
     size_t child_count;
 } HtmlNode;
 
-// Parsed nur sehr einfaches HTML (ohne Attribute, ohne korrektes DOM)
 HtmlNode *parse_html(const char *html);
-
-// Gibt kompletten Baum frei
 void free_html_tree(HtmlNode *node);
 
 #endif
+
