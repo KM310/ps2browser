@@ -7,6 +7,10 @@
 #include "render.h"
 #include "js_vm.h"
 
+// Script-Executor deklarieren
+void execute_scripts(HtmlNode *root);
+
+// Lädt Datei in Speicher
 static char *load_file(const char *path, size_t *out_size) {
     FILE *f = fopen(path, "rb");
     if (!f) {
@@ -28,12 +32,38 @@ static char *load_file(const char *path, size_t *out_size) {
     return buf;
 }
 
+// Trennt HTTP-Header vom Body
 static char *extract_http_body(char *data) {
     char *p = strstr(data, "\r\n\r\n");
     if (!p) return data;
     return p + 4;
 }
 
+// ------------------------------------------------------------
+// JS-Script-Executor
+// ------------------------------------------------------------
+void execute_scripts(HtmlNode *node) {
+    if (!node) return;
+
+    // Wenn es ein <script>-Tag ist
+    if (node->type == NODE_TAG && node->tag_name && strcmp(node->tag_name, "script") == 0) {
+        for (size_t i = 0; i < node->child_count; i++) {
+            HtmlNode *child = node->children[i];
+            if (child->type == NODE_TEXT && child->text) {
+                js_run_placeholder(child->text);
+            }
+        }
+    }
+
+    // Rekursiv durch alle Kinder laufen
+    for (size_t i = 0; i < node->child_count; i++) {
+        execute_scripts(node->children[i]);
+    }
+}
+
+// ------------------------------------------------------------
+// MAIN
+// ------------------------------------------------------------
 int main(int argc, char **argv) {
     const char *host = NULL;
     const char *path = "/";
@@ -71,11 +101,16 @@ int main(int argc, char **argv) {
     }
 
     HtmlNode *root = parse_html(body);
+
+    // HTML anzeigen
     render_tree_text(root);
+
+    // ✅ JavaScript ausführen
+    execute_scripts(root);
+
+    // Speicher freigeben
     free_html_tree(root);
     free(data);
-
-    js_run_placeholder();
 
     return 0;
 }
