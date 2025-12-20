@@ -25,7 +25,6 @@ The browser expects **host** and **path** as separate arguments:
 ./ps2browser example.com /
 Examples:
 
-sh
 ./ps2browser example.com /index.html
 ./ps2browser 192.168.0.10 /tictactoe.html
 ./ps2browser myserver.local /page.html
@@ -35,7 +34,6 @@ Do not enter full URLs like http://example.com — the browser only accepts the 
 📁 Opening Local HTML Files
 If you start the browser without arguments:
 
-sh
 ./ps2browser
 it automatically loads:
 
@@ -45,20 +43,16 @@ Place your file inside test_pages/
 
 Rename it:
 
-sh
 mv test_pages/tictactoe.html test_pages/index.html
 Start the browser:
 
-sh
 ./ps2browser
 🛠️ Building on PS2 Linux
 Navigate to your project folder:
 
-sh
 cd /your/path/to/ps2browser
 Then compile:
 
-sh
 make
 This creates the executable:
 
@@ -66,7 +60,6 @@ ps2browser
 🌐 Network Setup (if needed)
 If PS2 Linux has no network connection yet:
 
-sh
 ifconfig eth0 up
 dhclient eth0
 or configure a static IP.
