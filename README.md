@@ -4,16 +4,16 @@ A simple web browser for **MIPS / Linux / PlayStation 2**, running directly on r
 
 Currently supported:
 - ✅ HTML 1.0 (basic tags)
-- ✅ Simple JavaScript (placeholder)
+- ✅ Simple JavaScript
 - ✅ HTTP 1.0 (GET)
 - ✅ MIPS‑optimized assembly routines (memcpy, strlen)
 - ✅ Terminal text renderer
+- ✅ JavaScript interpreter
 
 Planned features:
 - 🔒 HTTPS (optional, later)
 - 📄 HTML 2.0
 - 🎨 Framebuffer graphics renderer
-- 🧠 JavaScript interpreter
 
 ---
 
