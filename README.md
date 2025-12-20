@@ -7,4 +7,5 @@ for PS2 (or Playstation things) join PSX.Dev
 written in c and assembly
 coded by K_M and debugged by Copilot
 just do cd ******/ps2browser and then make in PS2 Linux terminal
+if you type ./ps2browser index.html whill open if you want tictactoe on the ps2 just delete index.tml and rename tictactoe.html in index.html
 have fun
