@@ -10,24 +10,30 @@ static HtmlNode *alloc_node(NodeType type) {
 }
 
 static void add_child(HtmlNode *parent, HtmlNode *child) {
-    parent->children = (HtmlNode **)realloc(
-        parent->children,
-        sizeof(HtmlNode *) * (parent->child_count + 1)
-    );
+    parent->children = realloc(parent->children,
+        sizeof(HtmlNode*) * (parent->child_count + 1));
     parent->children[parent->child_count++] = child;
 }
 
 static char *strndup_simple(const char *s, size_t len) {
-    char *r = (char *)malloc(len + 1);
+    char *r = malloc(len + 1);
     memcpy(r, s, len);
     r[len] = '\0';
     return r;
 }
 
-static char *trim_tagname(const char *start, const char *end) {
-    while (start < end && isspace((unsigned char)*start)) start++;
-    while (end > start && isspace((unsigned char)*(end - 1))) end--;
-    return strndup_simple(start, end - start);
+static char *extract_src(const char *tag, const char *end) {
+    const char *p = strstr(tag, "src=");
+    if (!p || p > end) return NULL;
+
+    p += 4; // skip src=
+    if (*p == '"' || *p == '\'') {
+        char quote = *p++;
+        const char *start = p;
+        while (p < end && *p != quote) p++;
+        return strndup_simple(start, p - start);
+    }
+    return NULL;
 }
 
 HtmlNode *parse_html(const char *html) {
@@ -39,7 +45,6 @@ HtmlNode *parse_html(const char *html) {
 
     while (*p) {
         if (*p == '<') {
-            // Text bis hier
             if (p > text_start) {
                 HtmlNode *t = alloc_node(NODE_TEXT);
                 t->text = strndup_simple(text_start, p - text_start);
@@ -51,7 +56,17 @@ HtmlNode *parse_html(const char *html) {
             if (!tag_end) break;
 
             HtmlNode *tag = alloc_node(NODE_TAG);
-            tag->tag_name = trim_tagname(tag_start, tag_end);
+
+            // Tagname extrahieren
+            const char *name_end = tag_start;
+            while (name_end < tag_end && !isspace(*name_end))
+                name_end++;
+
+            tag->tag_name = strndup_simple(tag_start, name_end - tag_start);
+
+            // NEW: src="..."
+            tag->attr_src = extract_src(name_end, tag_end);
+
             add_child(root, tag);
 
             p = tag_end + 1;
@@ -73,12 +88,13 @@ HtmlNode *parse_html(const char *html) {
 void free_html_tree(HtmlNode *node) {
     if (!node) return;
 
-    for (size_t i = 0; i < node->child_count; i++) {
+    for (size_t i = 0; i < node->child_count; i++)
         free_html_tree(node->children[i]);
-    }
-    free(node->children);
 
+    free(node->children);
     free(node->tag_name);
     free(node->text);
+    free(node->attr_src);
     free(node);
 }
+
