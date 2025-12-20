@@ -1,11 +1,87 @@
-# PS2-webbrowser
-Webbrowser for MIPS,Linux,PS2 (runs on PS2 (MIPS) and with the PS2 Linux Kit)
-supports Html 1.0 simple javascript and http (later mby https and html 2.0) you need also a lan connection (is included in kit)
-type ./ps2browser example.com / to open a website 
-version 1.0 (contact k_m0310 on discord to report bug only DM)
-for PS2 (or Playstation things) join PSX.Dev
-written in c and assembly
-coded by K_M and debugged by Copilot
-just do cd ur/path/to/ps2browser and then make in PS2 Linux terminal
-if you type ./ps2browser index.html whill open if you want tictactoe on the ps2 just delete index.tml and rename tictactoe.html in index.html
-have fun
+# PS2 Webbrowser
+
+A simple web browser for **MIPS / Linux / PlayStation 2**, running directly on real PS2 hardware using the **PS2 Linux Kit**.
+
+Currently supported:
+- ✅ HTML 1.0 (basic tags)
+- ✅ Simple JavaScript (placeholder)
+- ✅ HTTP 1.0 (GET)
+- ✅ MIPS‑optimized assembly routines (memcpy, strlen)
+- ✅ Terminal text renderer
+
+Planned features:
+- 🔒 HTTPS (optional, later)
+- 📄 HTML 2.0
+- 🎨 Framebuffer graphics renderer
+- 🧠 JavaScript interpreter
+
+---
+
+## 🚀 Opening a Website
+
+The browser expects **host** and **path** as separate arguments:
+
+```sh
+./ps2browser example.com /
+Examples:
+
+sh
+./ps2browser example.com /index.html
+./ps2browser 192.168.0.10 /tictactoe.html
+./ps2browser myserver.local /page.html
+Important:  
+Do not enter full URLs like http://example.com — the browser only accepts the hostname.
+
+📁 Opening Local HTML Files
+If you start the browser without arguments:
+
+sh
+./ps2browser
+it automatically loads:
+
+test_pages/index.html
+✅ Opening TicTacToe locally
+Place your file inside test_pages/
+
+Rename it:
+
+sh
+mv test_pages/tictactoe.html test_pages/index.html
+Start the browser:
+
+sh
+./ps2browser
+🛠️ Building on PS2 Linux
+Navigate to your project folder:
+
+sh
+cd /your/path/to/ps2browser
+Then compile:
+
+sh
+make
+This creates the executable:
+
+ps2browser
+🌐 Network Setup (if needed)
+If PS2 Linux has no network connection yet:
+
+sh
+ifconfig eth0 up
+dhclient eth0
+or configure a static IP.
+
+👤 Info
+Version: 1.0
+
+Code: C + MIPS Assembly
+
+Author: K_M
+
+Debugging: Copilot
+
+Bug reports: Discord → k_m0310 (DM)
+
+PS2 community: PSX.Dev
+
+Have fun experimenting on real PS2 hardware!
