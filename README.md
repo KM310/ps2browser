@@ -67,7 +67,7 @@ or configure a static IP.
 👤 Info
 Version: 1.0
 
-Code: C + MIPS Assembly
+Code: C + MIPS Assembly + JavaScript + HTML + Cpp 
 
 Author: K_M
 
