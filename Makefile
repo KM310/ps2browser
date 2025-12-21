@@ -1,44 +1,64 @@
-# PS2 Toolchain
-CC  = mips64r5900el-ps2-elf-gcc
-CXX = mips64r5900el-ps2-elf-g++
-AS  = mips64r5900el-ps2-elf-as
+# ================================
+#  PS2 Linux Browser – Makefile
+#  Zielplattform: native PS2 Linux (MIPS)
+# ================================
 
-# Flags
-CFLAGS  = -Wall -O2 -Isrc -Isrc/asm -Isrc/cpp
+# Native Compiler auf PS2 Linux
+CC      = gcc
+CXX     = g++
+
+# Compiler-Flags
+CFLAGS   = -O2 -Wall -Isrc -Isrc/asm -Isrc/cpp
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
-ASFLAGS = 
 
-# Source files
-C_SRCS   = $(wildcard src/*.c)
-CPP_SRCS = $(wildcard src/cpp/*.cpp)
-ASM_SRCS = $(wildcard src/asm/*.S)
+# C-Quellcode
+SRC_C = \
+    src/main.c \
+    src/http.c \
+    src/html_parser.c \
+    src/render.c \
+    src/js_vm.c
 
-# Object files
-C_OBJS   = $(C_SRCS:.c=.o)
-CPP_OBJS = $(CPP_SRCS:.cpp=.o)
-ASM_OBJS = $(ASM_SRCS:.S=.o)
+# C++-Quellcode
+SRC_CPP = \
+    src/cpp/buffer.cpp \
+    src/cpp/buffer_c_api.cpp
 
-OBJS = $(C_OBJS) $(CPP_OBJS) $(ASM_OBJS)
+# ASM-Quellcode (Großes .S = durch Preprocessor laufend)
+SRC_ASM = \
+    src/asm/string_opt.S \
+    src/asm/mem_opt.S
 
-# Output
-TARGET = browser.elf
+# Objektdateien
+OBJ = \
+    $(SRC_C:.c=.o) \
+    $(SRC_CPP:.cpp=.o) \
+    $(SRC_ASM:.S=.o)
 
+# Zielname (KEIN .elf!)
+TARGET = ps2browser
+
+.PHONY: all clean
+
+# Standardziel
 all: $(TARGET)
 
-$(TARGET): $(OBJS)
-    $(CXX) $(OBJS) -o $(TARGET)
+# Linken (C++ Linker, damit C++ + ASM + C funktioniert)
+$(TARGET): $(OBJ)
+    $(CXX) $(CXXFLAGS) -o $@ $(OBJ)
 
-# Compile rules
+# C-Dateien kompilieren
 src/%.o: src/%.c
     $(CC) $(CFLAGS) -c $< -o $@
 
+# C++-Dateien kompilieren
 src/cpp/%.o: src/cpp/%.cpp
     $(CXX) $(CXXFLAGS) -c $< -o $@
 
+# ASM-Dateien kompilieren
 src/asm/%.o: src/asm/%.S
-    $(CC) -c $< -o $@
+    $(CC) $(CFLAGS) -c $< -o $@
 
+# Aufräumen
 clean:
-    rm -f $(OBJS) $(TARGET)
-
-.PHONY: all clean
+    rm -f $(OBJ) $(TARGET)
