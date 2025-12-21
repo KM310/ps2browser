@@ -6,6 +6,7 @@
 #include "html_parser.h"
 #include "render.h"
 #include "js_vm.h"
+#include "asm/asm_api.h"
 
 // Script-Executor deklarieren
 void execute_scripts(HtmlNode *root);
