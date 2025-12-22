@@ -1,4 +1,8 @@
 # PS2 Webbrowser
+<p align="center">
+    <img src="Logo.png" width="200" height="200" style="image-rendering: pixelated;">
+</p>
+
 
 A simple web browser for **MIPS / Linux / PlayStation 2**, running directly on real PS2 hardware using the **PS2 Linux Kit**.
 
