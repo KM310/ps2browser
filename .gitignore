@@ -1,0 +1,32 @@
+# Build artifacts
+*.o
+*.elf
+*.bin
+*.map
+*.out
+
+# Executables
+ps2browser
+browser
+*.exe
+
+# PS2SDK build temp
+*.irx
+*.a
+
+# Logs
+*.log
+
+# Editor / IDE
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Archives
+*.zip
+*.tar
+*.gz
