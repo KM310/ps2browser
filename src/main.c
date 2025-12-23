@@ -8,9 +8,6 @@
 #include "js_vm.h"
 #include "asm/asm_api.h"
 
-mips_fast_memcpy(dst, src, len);
-mips_fast_strlen(text);
-
 // Script-Executor deklarieren
 void execute_scripts(HtmlNode *root);
 
@@ -69,6 +66,23 @@ void execute_scripts(HtmlNode *node) {
 // MAIN
 // ------------------------------------------------------------
 int main(int argc, char **argv) {
+
+    // --------------------------------------------------------
+    // 🔥 HIER WIRD DEINE ASM BENUTZT – 100% KORREKT 🔥
+    // --------------------------------------------------------
+    char src_test[] = "PS2 ASM TEST";
+    char dst_test[64];
+
+    // ASM memcpy
+    mips_fast_memcpy(dst_test, src_test, 13);
+
+    // ASM strlen
+    unsigned int asm_len = mips_fast_strlen(dst_test);
+
+    printf("ASM memcpy Ergebnis: %s\n", dst_test);
+    printf("ASM strlen Ergebnis: %u\n", asm_len);
+    // --------------------------------------------------------
+
     const char *host = NULL;
     const char *path = "/";
     const char *download_file = "download.html";
@@ -109,7 +123,7 @@ int main(int argc, char **argv) {
     // HTML anzeigen
     render_tree_text(root);
 
-    // ✅ JavaScript ausführen
+    // JavaScript ausführen
     execute_scripts(root);
 
     // Speicher freigeben
