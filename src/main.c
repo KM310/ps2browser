@@ -8,6 +8,9 @@
 #include "js_vm.h"
 #include "asm/asm_api.h"
 
+mips_fast_memcpy(dst, src, len);
+mips_fast_strlen(text);
+
 // Script-Executor deklarieren
 void execute_scripts(HtmlNode *root);
 
