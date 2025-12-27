@@ -67,9 +67,6 @@ void execute_scripts(HtmlNode *node) {
 // ------------------------------------------------------------
 int main(int argc, char **argv) {
 
-    // --------------------------------------------------------
-    // 🔥 HIER WIRD DEINE ASM BENUTZT – 100% KORREKT 🔥
-    // --------------------------------------------------------
     char src_test[] = "PS2 ASM TEST";
     char dst_test[64];
 
