@@ -77,8 +77,4 @@ Author: K_M
 
 Debugging: Copilot
 
-Bug reports: Discord → k_m0310 (DM)
-
-PS2 community: PSX.Dev
-
 Have fun experimenting on real PS2 hardware!
